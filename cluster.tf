@@ -19,3 +19,11 @@ resource "aws_docdb_subnet_group" "docdb" {
     Name = "My docdb subnet group"
   }
 }
+
+# Creats DocDB Cluster Instances and adds them to the cluster
+resource "aws_docdb_cluster_instance" "cluster_instances" {
+  count              = 2
+  identifier         = "docdb-cluster-demo-${count.index}"
+  cluster_identifier = aws_docdb_cluster.default.id
+  instance_class     = "db.r5.large"
+}
