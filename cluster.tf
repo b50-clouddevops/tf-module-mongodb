@@ -7,6 +7,7 @@ resource "aws_docdb_cluster" "docdb" {
 # True only during lab, in prod , we will take a snapshot and that time value will be false
   skip_final_snapshot     = true
   db_subnet_group_name    = aws_docdb_subnet_group.docdb.name
+  vpc_security_group_ids  = [aws_security_group.allow_docdb.id]
 }
 
 
@@ -31,22 +32,22 @@ resource "aws_docdb_cluster_instance" "cluster_instances" {
 
 # Creates Security Group for DocumentDB
 resource "aws_security_group" "allow_docdb" {
-  name        = "roboshop-redis-${var.ENV}"
-  description = "roboshop-redis-${var.ENV}"
+  name        = "roboshop-docdb-${var.ENV}"
+  description = "roboshop-docdb-${var.ENV}"
   vpc_id      = data.terraform_remote_state.vpc.outputs.VPC_ID
 
   ingress {
-    description      = "Allow Redis Connection From Default VPC"
-    from_port        = 6379
-    to_port          = 6379
+    description      = "Allow DocDB Connection From Default VPC"
+    from_port        = 27017
+    to_port          = 27017
     protocol         = "tcp"
     cidr_blocks      = [data.terraform_remote_state.vpc.outputs.DEFAULT_VPC_CIDR]
   }
 
   ingress {
-    description      = "Allow Redis Connection From Private VPC"
-    from_port        = 6379
-    to_port          = 6379
+    description      = "Allow DocDB Connection From Private VPC"
+    from_port        = 27017
+    to_port          = 27017
     protocol         = "tcp"
     cidr_blocks      = [data.terraform_remote_state.vpc.outputs.DEFAULT_VPC_CIDR]
   }
@@ -60,6 +61,6 @@ resource "aws_security_group" "allow_docdb" {
   }
 
   tags = {
-    Name = "roboshop-redis-sg-${var.ENV}"
+    Name = "roboshop-docdb-sg-${var.ENV}"
   }
 }
