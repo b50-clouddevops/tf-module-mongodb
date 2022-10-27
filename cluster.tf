@@ -27,3 +27,39 @@ resource "aws_docdb_cluster_instance" "cluster_instances" {
   cluster_identifier = aws_docdb_cluster.docdb.id
   instance_class     = "db.t3.medium"
 }
+
+
+# Creates Security Group for DocumentDB
+resource "aws_security_group" "allow_docdb" {
+  name        = "roboshop-redis-${var.ENV}"
+  description = "roboshop-redis-${var.ENV}"
+  vpc_id      = data.terraform_remote_state.vpc.outputs.VPC_ID
+
+  ingress {
+    description      = "Allow Redis Connection From Default VPC"
+    from_port        = 6379
+    to_port          = 6379
+    protocol         = "tcp"
+    cidr_blocks      = [data.terraform_remote_state.vpc.outputs.DEFAULT_VPC_CIDR]
+  }
+
+  ingress {
+    description      = "Allow Redis Connection From Private VPC"
+    from_port        = 6379
+    to_port          = 6379
+    protocol         = "tcp"
+    cidr_blocks      = [data.terraform_remote_state.vpc.outputs.DEFAULT_VPC_CIDR]
+  }
+
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+  }
+
+  tags = {
+    Name = "roboshop-redis-sg-${var.ENV}"
+  }
+}
