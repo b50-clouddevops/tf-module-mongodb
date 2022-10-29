@@ -17,10 +17,10 @@ resource "null_resource" "mongodb-schema" {
   provisioner "local-exec" {
 command = <<EOF
   cd /tmp/
-  curl -s -L -o /tmp/mysql.zip "https://github.com/stans-robot-project/mysql/archive/main.zip"
-  unzip mysql.zip 
-  cd mysql-main 
-  mysql -h ${aws_db_instance.mysql.address} -uadmin1 -pRoboShop1 < shipping.sql
+  curl -s -L -o /tmp/mongodb.zip "https://github.com/stans-robot-project/mongodb/archive/main.zip"
+  unzip mongodb.zip 
+  cd mongodb-main 
+  
 EOF 
 
   }
