@@ -17,9 +17,9 @@ resource "null_resource" "mongodb-schema" {
   provisioner "local-exec" {
 command = <<EOF
   cd /tmp/
-  wget https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
-  mongo --ssl --host ${aws_docdb_cluster.docdb.endpoint}:27017 --sslCAFile rds-combined-ca-bundle.pem --username admin1 --password <insertYourPassword>
   curl -s -L -o /tmp/mongodb.zip "https://github.com/stans-robot-project/mongodb/archive/main.zip"
+  wget https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
+  mongo --ssl --host ${aws_docdb_cluster.docdb.endpoint}:27017 --sslCAFile /tmp/rds-combined-ca-bundle.pem --username admin1 --password roboshop1
   unzip mongodb.zip 
   cd mongodb-main 
   
