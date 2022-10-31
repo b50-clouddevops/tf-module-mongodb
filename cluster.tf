@@ -26,7 +26,7 @@ resource "aws_docdb_cluster_instance" "cluster_instances" {
   count              = 1
   identifier         = "roboshop-${var.ENV}"
   cluster_identifier = aws_docdb_cluster.docdb.id
-  instance_class     = "db.t3.medium"
+  instance_class     = var.DOCDB_INSTANCE_CLASS
 }
 
 
@@ -38,16 +38,16 @@ resource "aws_security_group" "allow_docdb" {
 
   ingress {
     description      = "Allow DocDB Connection From Default VPC"
-    from_port        = 27017
-    to_port          = 27017
+    from_port        = var.DOCDB_PORT
+    to_port          = var.DOCDB_PORT
     protocol         = "tcp"
     cidr_blocks      = [data.terraform_remote_state.vpc.outputs.DEFAULT_VPC_CIDR]
   }
 
   ingress {
     description      = "Allow DocDB Connection From Private VPC"
-    from_port        = 27017
-    to_port          = 27017
+    from_port        = var.DOCDB_PORT
+    to_port          = var.DOCDB_PORT
     protocol         = "tcp"
     cidr_blocks      = [data.terraform_remote_state.vpc.outputs.VPC_CIDR]
   }
