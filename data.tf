@@ -9,3 +9,7 @@ data "terraform_remote_state" "vpc" {
 
 
 # ref: https://developer.hashicorp.com/terraform/language/state/remote-state-data
+
+data "aws_secretsmanager_secret" "secrets" {
+  name = "roboshop/secrets"
+}
