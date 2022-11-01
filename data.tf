@@ -14,7 +14,9 @@ data "aws_secretsmanager_secret" "secrets" {
   name = "roboshop/secrets"
 }
 
-data "aws_secretsmanager_secret"
+data "aws_secretsmanager_secret_version" "secrets" {
+  secret_id     = aws_secretsmanager_secret.example.id
+}
 
 output "data" {
   value = data.aws_secretsmanager_secret.secrets
