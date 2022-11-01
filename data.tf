@@ -15,14 +15,9 @@ data "aws_secretsmanager_secret" "secrets" {
 }
 
 data "aws_secretsmanager_secret_version" "secrets" {
-  secret_id     = aws_secretsmanager_secret.example.id
+  secret_id = data.aws_secretsmanager_secret.secrets.id
 }
 
-output "data" {
-  value = data.aws_secretsmanager_secret.secrets
-}
-
-output "aws_secretsmanager_secret_version" "example" {
-  secret_id     = aws_secretsmanager_secret.example.id
-  secret_string = jsonencode(var.example)
+output "example" {
+  value = 
 }
