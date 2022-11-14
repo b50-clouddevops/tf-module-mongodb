@@ -2,7 +2,7 @@
 resource "aws_docdb_cluster" "docdb" {
   cluster_identifier      = "roboshop-${var.ENV}"
   engine                  = "docdb"
-  master_username         = jsondecode(data.aws_secretsmanager_secret_version.secrets.secret_string)["DOCDB_USERNAME"]
+  master_username         = 
   master_password         = jsondecode(data.aws_secretsmanager_secret_version.secrets.secret_string)["DOCDB_PASSWORD"]
 # True only during lab, in prod , we will take a snapshot and that time value will be false
   skip_final_snapshot     = true
